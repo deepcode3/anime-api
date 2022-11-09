@@ -1,8 +1,15 @@
+import styles from '../../styles/Anime.module.scss'
+
 function AnimeDetailStatic({anime}){
     return(
-        <div>
-            <h1>Showing anime detail static </h1>
-             <h3>{anime.title}</h3> 
+        <div className={styles.box}>
+              <h1 className={styles.detailTitle}>Anime Details </h1>
+            <img className={styles.coverimg} src={anime.image} alt="hero"/>
+            <p>{anime.title}</p>
+            <p>{anime.description}</p>
+            <p>Producer:{anime.producer}</p>
+            <p>Director:{anime.director}</p>
+            <p>Release date to running time:{anime.release_date}-{anime.running_time}</p>
           {/* {
                 anime.map(a=>{
                     return(

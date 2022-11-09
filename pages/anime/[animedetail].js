@@ -1,6 +1,5 @@
-
-import styles from '../../styles/Anime.module.scss'
 import { useRouter } from 'next/router'
+import styles from '../../styles/Anime.module.scss'
 
 function AnimeDetail(){
     const router = useRouter();

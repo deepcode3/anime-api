@@ -1,3 +1,5 @@
+import styles from '../../styles/Anime.module.scss'
+
 function AnimeDetailStatic({animes}){
     return(
         <div>
