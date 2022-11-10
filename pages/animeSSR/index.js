@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import styles from '../../styles/Anime.module.scss'
 
-function AnimeStatic({animes}){
+function AnimeSSR({animes}){
     return(
         <div className={styles.container}>
         <h1 className={styles.title}>Anime List</h1>
@@ -23,7 +23,7 @@ function AnimeStatic({animes}){
         </div>
        ) 
 }
-export default AnimeStatic
+export default AnimeSSR
 
 
 export async function getServerSideProps(){

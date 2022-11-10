@@ -1,6 +1,6 @@
 import styles from '../../styles/Anime.module.scss'
 
-function AnimeDetailStatic({animes}){
+function AnimeDetailSSR({animes}){
     return(
         <>
           {
@@ -21,7 +21,7 @@ function AnimeDetailStatic({animes}){
            </>
     )
 }
-export default AnimeDetailStatic
+export default AnimeDetailSSR
 
 
 export async function getServerSideProps(context){
