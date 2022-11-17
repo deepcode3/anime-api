@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import styles from '../../styles/Anime.module.scss'
+import styles from './Anime.module.scss'
 
 function AnimeSSR({animes}){
     return(

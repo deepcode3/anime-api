@@ -1,4 +1,5 @@
-import styles from '../../styles/Anime.module.scss'
+
+import styles from './Anime.module.scss'
 
 function AnimeDetailSSR({animes}){
     return(

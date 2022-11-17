@@ -1,6 +1,6 @@
 import useSWR from 'swr'
 import Link from 'next/link'
-import styles from '../../styles/Anime.module.scss'
+import styles from './Anime.module.scss'
 
 const fetcher=async ()=>{
     const response =await fetch('https://ghibliapi.herokuapp.com/films')
