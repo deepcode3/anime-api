@@ -2,15 +2,6 @@ import styles from './Anime.module.scss'
 
 function AnimeDetailStatic({animes}){
     return(
-        // <div className={styles.box}>
-        //       <h1 className={styles.detailTitle}>Anime Details </h1>
-        //     <img className={styles.coverimg} src={animes.image} alt="hero"/>
-        //     <p>{animes.title}</p>
-        //     <p>{animes.description}</p>
-        //     <p>Producer:{animes.producer}</p>
-        //     <p>Director:{animes.director}</p>
-        //     <p>Release date to running time:{animes.release_date}-{animes.running_time}</p>
-        // </div>
            <>
            {
                  animes.map(anime=>{
@@ -54,7 +45,6 @@ export async function getStaticProps(context){
     const {params}=context
     const {animedetailstatic}=params
     const response=await fetch(`https://ghibliapi.herokuapp.com/films?id=${animedetailstatic}`)
-   // const response=await fetch(`https://ghibliapi.herokuapp.com/films/${params.animedetailstatic}`)
     const data=await response.json()
     console.log('data',data)
 
@@ -66,6 +56,22 @@ export async function getStaticProps(context){
 }
 
 
+
+
+
+
+
+
+
+        // <div className={styles.box}>
+        //       <h1 className={styles.detailTitle}>Anime Details </h1>
+        //     <img className={styles.coverimg} src={animes.image} alt="hero"/>
+        //     <p>{animes.title}</p>
+        //     <p>{animes.description}</p>
+        //     <p>Producer:{animes.producer}</p>
+        //     <p>Director:{animes.director}</p>
+        //     <p>Release date to running time:{animes.release_date}-{animes.running_time}</p>
+        // </div>
 
         // paths:[
         //     {
