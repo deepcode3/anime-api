@@ -1,4 +1,5 @@
 import styles from './Anime.module.scss'
+import ApiCall from '../../utils/apiCall'
 
 function AnimeDetailStatic({animes}){
     return(
@@ -24,9 +25,8 @@ function AnimeDetailStatic({animes}){
 export default AnimeDetailStatic
 
 export async function getStaticPaths(){
-
-    const response=await fetch(`https://ghibliapi.herokuapp.com/films`)
-    const data=await response.json()
+    const url=`https://ghibliapi.herokuapp.com/films`
+    const data=await ApiCall(url)
 
     const paths=data.map(d=>{
         return{
@@ -44,8 +44,8 @@ export async function getStaticPaths(){
 export async function getStaticProps(context){
     const {params}=context
     const {animedetailstatic}=params
-    const response=await fetch(`https://ghibliapi.herokuapp.com/films?id=${animedetailstatic}`)
-    const data=await response.json()
+    const url=`https://ghibliapi.herokuapp.com/films?id=${animedetailstatic}`
+   const data=await ApiCall(url)
     console.log('data',data)
 
     return{

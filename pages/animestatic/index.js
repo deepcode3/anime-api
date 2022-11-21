@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import styles from './Anime.module.scss'
+import ApiCall from '../../utils/apiCall'
 
 function AnimeStatic({animes}){
     return(
@@ -27,8 +28,8 @@ export default AnimeStatic
 
 
 export async function getStaticProps(){
-    const response=await fetch(`https://ghibliapi.herokuapp.com/films`)
-    const data=await response.json()
+    const url=`https://ghibliapi.herokuapp.com/films`
+     const data=await ApiCall(url)
 
     return{
         props:{
