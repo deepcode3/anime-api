@@ -17,7 +17,6 @@ function SignUp(){
   const handleSubmit = (event) => {
     event.preventDefault();
     alert('account created successfully')
-    console.log(user);
     setUser({name:"",email:"",password:""})
   };
 
