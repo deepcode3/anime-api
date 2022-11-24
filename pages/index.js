@@ -1,18 +1,11 @@
 import Link from 'next/link'
+import styles from '../styles/home.module.scss'
 
 function Home(){
   return(
-    <div>
-      <h1>Home page</h1>
-      <button>
-        <Link href='/anime'>Anime List</Link>
-      </button>
-      <button>    
-        <Link href='/animeSSR'>Anime List Server Side Rendering</Link>
-      </button>
-      <button>      
-        <Link href='/animestatic'>Anime List Static Integration</Link>
-      </button>
+    <div className={styles.container}>
+      <Link  href='/signUp'><button>signup</button></Link>
+      <Link  href='/animestatic'><button>anime list using static</button> </Link>
     </div>
   )
 }
