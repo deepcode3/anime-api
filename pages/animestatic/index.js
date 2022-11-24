@@ -9,8 +9,6 @@ function AnimeStatic(){
     const [data, setData] = useState(null);
     const [isLoading, setLoading] = useState(true);
 
-  
-
     const apiCall=async()=>{
         const {data:res}=await axios.get(animeUrl);
         setData(res);
@@ -20,7 +18,6 @@ function AnimeStatic(){
     useEffect(() => {
         apiCall();
       }, []);
-      console.log('data',data);
 
     return(
          isLoading?  
@@ -48,13 +45,3 @@ function AnimeStatic(){
 export default AnimeStatic
 
 
-// export async function getStaticProps(){
-//     const url=`https://ghibliapi.herokuapp.com/films`
-//      const data=await ApiCall(url)
-
-//     return{
-//         props:{
-//             animes:data,
-//         }
-//     }
-// }

@@ -36,7 +36,7 @@ function AnimeDetailStatic( ){
                   <p>Release date to running time:{anime.release_date}-{anime.running_time}</p>
                 </div>
                 )
-                 })
+            })
     )
 }
 
