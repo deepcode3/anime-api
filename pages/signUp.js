@@ -16,7 +16,8 @@ function SignUp(){
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    alert('account created successfully')
+    alert(`account created successfully-${JSON.stringify(user)}`)
+    localStorage.setItem('user',JSON.stringify(user))
     setUser({name:"",email:"",password:""})
   };
 
@@ -26,13 +27,13 @@ function SignUp(){
       <h2 className={styles.title}>Sign Up</h2>
       <form className={styles.card} onSubmit={handleSubmit}>
         <label>Email</label>
-        <input required type='email' name='email' value={user.email} onChange={handleChange}/>
+        <input required  type='text'  aria-label="Email field" name='email' value={user.email} onChange={handleChange} />  
         <label>User Name</label>
-        <input required type='text' name='name' value={user.name } onChange={handleChange}/>
+        <input required type='text'  aria-label="Name field" name='name' value={user.name} onChange={handleChange}  /> 
         <label>Password</label>
-        <input required type='text' name='password' value={user.password } onChange={handleChange}/>
-        <button  className={styles.create}>Create Account</button>
-        <p>Already have an account? <Link href={'/'}><span>Login</span></Link></p>
+        <input required type='text' maxLength='10' minLength='4' name='password' value={user.password } onChange={handleChange}/>
+        <button type='submit' className={styles.create}>Create Account</button>
+        <p className='haveAccont'>Already have an account? <Link href={'/signIn'}><span>Signin</span></Link></p>
       </form>
       </div>
     </div>
