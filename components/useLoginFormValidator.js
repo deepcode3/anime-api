@@ -40,7 +40,7 @@ export const useLoginFormValidator = (user) => {
     },
   });
 
-  const validateForm = ({ user, formName, errors,forceTouchErrors= false }) => {
+  const signUpValidateForm = ({ user, formName, errors,forceTouchErrors= false }) => {
     //the formName value is used to check which validator should run every time one input value changes
     let isValid = true;
 
@@ -61,21 +61,21 @@ export const useLoginFormValidator = (user) => {
       if (!!emailMessage) isValid = false;
     }
 
-    if (nextErrors.name.dirty && (formName ? formName === "name" : true)) {
+  else  if (nextErrors.name.dirty && (formName ? formName === "name" : true)) {
       const nameMessage = nameValidator(name);
       nextErrors.name.error = !!nameMessage;
       nextErrors.name.message = nameMessage;
       if (!!nameMessage) isValid = false;
     }
 
-    if (nextErrors.password.dirty && (formName ? formName === "password" : true)) {
+   else if (nextErrors.password.dirty && (formName ? formName === "password" : true)) {
       const passwordMessage = passwordValidator(password);
       nextErrors.password.error = !!passwordMessage;
       nextErrors.password.message = passwordMessage;
       if (!!passwordMessage) isValid = false;
     }
 
-    if (
+  else  if (
       nextErrors.confirmPassword.dirty &&
       (formName ? formName === "confirmPassword" : true)
     ) {
@@ -86,6 +86,44 @@ export const useLoginFormValidator = (user) => {
       nextErrors.confirmPassword.error = !!confirmPasswordMessage;
       nextErrors.confirmPassword.message = confirmPasswordMessage;
       if (!!confirmPasswordMessage) isValid = false;
+    }
+
+    setErrors(nextErrors);
+
+    return {
+      isValid,
+      errors: nextErrors,
+    };
+  };
+
+  const signInValidateForm = ({ user, formName, errors,forceTouchErrors= false }) => {
+    //the formName value is used to check which validator should run every time one input value changes
+    let isValid = true;
+
+    // Create a deep copy(do not share the same references) of the errors
+  let nextErrors = JSON.parse(JSON.stringify(errors));
+
+    // Force validate all the fields
+    if (forceTouchErrors) {
+      nextErrors = touchErrors(errors);
+    }
+
+    const { email, password } = user;
+
+    if (nextErrors.email.dirty && (formName ? formName === "email" : true)) {
+      const emailMessage = emailValidator(email);
+      nextErrors.email.error = !!emailMessage;
+      nextErrors.email.message = emailMessage;
+      if (!!emailMessage) isValid = false;
+    }
+
+
+
+   else if (nextErrors.password.dirty && (formName ? formName === "password" : true)) {
+      const passwordMessage = passwordValidator(password);
+      nextErrors.password.error = !!passwordMessage;
+      nextErrors.password.message = passwordMessage;
+      if (!!passwordMessage) isValid = false;
     }
 
     setErrors(nextErrors);
@@ -110,11 +148,13 @@ export const useLoginFormValidator = (user) => {
       },
     };
 
-    validateForm({ user, formName, errors: updatedErrors });
+    signInValidateForm({ user, formName, errors: updatedErrors });
+    signUpValidateForm({ user, formName, errors: updatedErrors });
   };
 
   return {
-    validateForm,
+    signUpValidateForm,
+    signInValidateForm,
     onBlurField,
     errors,
   };

@@ -11,7 +11,7 @@ function SignIn(){
     password: "",
   });
 
-  const { errors, validateForm, onBlurField } = useLoginFormValidator(user);
+  const { errors, signInValidateForm, onBlurField } = useLoginFormValidator(user);
 
   const handleChange = e => {
     const formName = e.target.name;
@@ -21,7 +21,7 @@ function SignIn(){
     };
     setUser(nextFormState);
     if (errors[formName].dirty)
-      validateForm({
+      signInValidateForm({
         user: nextFormState,
         errors,
         formName,
@@ -30,11 +30,13 @@ function SignIn(){
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const {isValid}=validateForm({user,errors, forceTouchErrors: true})
-
-    if (isValid) return;
+    const {isValid}=signInValidateForm({user,errors, forceTouchErrors: true})
+    console.log("isValid",isValid)
+     if (!isValid) return;
     router.push('/animestatic')
     setUser({email:"",password:""})
+
+
     
   };
 

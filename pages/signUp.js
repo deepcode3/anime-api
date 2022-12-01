@@ -12,7 +12,7 @@ const  SignUp=()=>{
     confirmPassword: ""
   });
 
-  const { errors, validateForm, onBlurField } = useLoginFormValidator(user);
+  const { errors, signUpValidateForm, onBlurField } = useLoginFormValidator(user);
 
   const handleChange = e => {
     const formName = e.target.name;
@@ -22,7 +22,7 @@ const  SignUp=()=>{
     };
     setUser(nextFormState);
     if (errors[formName].dirty)
-      validateForm({
+      signUpValidateForm({
         user: nextFormState,
         errors,
         formName,
@@ -31,8 +31,10 @@ const  SignUp=()=>{
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const {isValid}=validateForm({user,errors, forceTouchErrors: true})
+    const {isValid}=signUpValidateForm({user,errors, forceTouchErrors: true})
+    console.log("1",isValid)
     if (!isValid) return;
+    console.log("2",isValid)
     alert(`account created successfully-${JSON.stringify(user)}`)
     localStorage.setItem('user',JSON.stringify(user))
     setUser({name:"",email:"",password:"",confirmPassword:""})
@@ -73,7 +75,7 @@ const  SignUp=()=>{
           ) : null}
           </div>
 
-          <div className={styles.formGroup}>
+            <div className={styles.formGroup}>
             <label className={styles.formLabel}>confirm Password</label>
             <input className={clsx(styles.formField,
             errors.email.dirty && errors.email.error && styles.formFieldError
@@ -82,7 +84,7 @@ const  SignUp=()=>{
             <p className={styles.formFieldErrorMessage}>
             {errors.confirmPassword.message}
             </p>) : null}
-          </div>
+          </div>  
           
           <div  className={styles.formActions}>
             <button type='submit' className={styles.formSubmitBtn}>Create Account</button>
