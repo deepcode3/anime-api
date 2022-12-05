@@ -11,9 +11,13 @@ function AnimeStatic() {
     const [isLoading, setLoading] = useState(true);
 
     const apiCall = async () => {
-        const { data: res } = await axios.get(animeUrl);
-        setData(res);
-        setLoading(false);
+        try {
+            const { data: res } = await axios.get(animeUrl);
+            setData(res);
+            setLoading(false);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     useEffect(() => {

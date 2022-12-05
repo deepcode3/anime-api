@@ -22,7 +22,7 @@ function SignIn() {
             userData.map((user) => {
                 if (user?.password !== data?.password) {
                     console.log(" password does not match");
-                } else if (user?.email !== data.email) {
+                } else if (user?.email !== data?.email) {
                     console.log("email does not match");
                 } else {
                     console.log("successfulyy logged in");
