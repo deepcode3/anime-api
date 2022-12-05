@@ -18,24 +18,19 @@ function SignIn() {
     } = useForm();
 
     const handleSignIn = (data) => {
-        console.log("user", userData);
-        console.log("data", data);
         if (userData) {
             userData.map((user) => {
-                if (user?.password !== data.password) {
-                    console.log("password  does not match");
+                if (user?.password !== data?.password) {
+                    console.log(" password does not match");
                 } else if (user?.email !== data.email) {
-                    console.log(" email does not match");
+                    console.log("email does not match");
                 } else {
                     console.log("successfulyy logged in");
                     router.push("/animestatic");
                     value.setUserSelected(user);
                 }
             });
-        } else alert("No user account");
-
-        //  console.log("data", data);
-        //  alert(`account created successfully-${JSON.stringify(data)}`);
+        }
     };
 
     return (
@@ -93,6 +88,7 @@ function SignIn() {
                     <button type="submit" className={styles.formSubmitBtn}>
                         Sign in
                     </button>
+                    {handleSignIn()}
                 </form>
             </div>
         </div>
