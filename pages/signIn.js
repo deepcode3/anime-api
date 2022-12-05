@@ -1,73 +1,101 @@
-import {  useState } from 'react'
-import styles from './signIn.module.scss'
-import clsx from 'clsx';
-import {useRouter} from 'next/router'
-import { useLoginFormValidator } from '../components/useLoginFormValidator';
+import styles from "./signIn.module.scss";
+import clsx from "clsx";
+import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
+import { User } from "../User";
+import { useContext } from "react";
+import AppContext from "../AppContext";
 
-function SignIn(){
-  const router = useRouter()
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-  });
+function SignIn() {
+    const value = useContext(AppContext);
+    const router = useRouter();
+    const userData = User;
 
-  const { errors, signInValidateForm, onBlurField } = useLoginFormValidator(user);
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
 
-  const handleChange = e => {
-    const formName = e.target.name;
-    const nextFormState = {
-      ...user,
-      [formName]: e.target.value,
+    const handleSignIn = (data) => {
+        console.log("user", userData);
+        console.log("data", data);
+        if (userData) {
+            userData.map((user) => {
+                if (user?.password !== data.password) {
+                    console.log("password  does not match");
+                } else if (user?.email !== data.email) {
+                    console.log(" email does not match");
+                } else {
+                    console.log("successfulyy logged in");
+                    router.push("/animestatic");
+                    value.setUserSelected(user);
+                }
+            });
+        } else alert("No user account");
+
+        //  console.log("data", data);
+        //  alert(`account created successfully-${JSON.stringify(data)}`);
     };
-    setUser(nextFormState);
-    if (errors[formName].dirty)
-      signInValidateForm({
-        user: nextFormState,
-        errors,
-        formName,
-      });
-  };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const {isValid}=signInValidateForm({user,errors, forceTouchErrors: true})
-    console.log("isValid",isValid)
-     if (!isValid) return;
-    router.push('/animestatic')
-    setUser({email:"",password:""})
+    return (
+        <div className={styles.container}>
+            <div className={styles.containerlist}>
+                <h2 className={styles.title}>Sign In</h2>
+                <form className={styles.form} onSubmit={handleSubmit(handleSignIn)}>
+                    <div className={styles.formGroup}>
+                        <label className={styles.formLabel}>Email</label>
+                        <input
+                            className={clsx(
+                                styles.formField,
+                                errors.email && styles.formFieldError
+                            )}
+                            type="email"
+                            {...register("email", {
+                                required: true,
+                                pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            })}
+                        />
+                        {errors?.email?.type === "required" ? (
+                            <p className={styles.formFieldErrorMessage}>Email is required</p>
+                        ) : null}
+                        {errors?.email?.type === "pattern" ? (
+                            <p className={styles.formFieldErrorMessage}>Email is not valid</p>
+                        ) : null}
+                    </div>
+                    <div className={styles.formGroup}>
+                        <label className={styles.formLabel}>Password</label>
+                        <input
+                            className={clsx(
+                                styles.formField,
+                                errors.password && styles.formFieldError
+                            )}
+                            type="password"
+                            {...register("password", {
+                                required: true,
+                                minLength: 8,
+                                maxLength: 8,
+                            })}
+                            placeholder="********"
+                        />
+                        {errors?.password?.type === "required" && (
+                            <p className={styles.formFieldErrorMessage}>Field is required</p>
+                        )}
+                        {errors?.password?.type === "minLength" ||
+                        errors?.password?.type === "maxLength" ? (
+                            <p className={styles.formFieldErrorMessage}>
+                                password must contain 8 characters
+                            </p>
+                        ) : null}
+                    </div>
 
-
-    
-  };
-
-
-  return(
-    <div className={styles.container}>
-      <div className={styles.containerlist}>
-      <h2 className={styles.title}>Sign In</h2>
-      <form className={styles.form} onSubmit={handleSubmit}>
-
-        <div className={styles.formGroup}>
-          <label className={styles.formLabel}>Email</label>
-          <input className={clsx(styles.formField,
-            errors.email.dirty && errors.email.error && styles.formFieldError)} type='email' name='email' value={user.email} onChange={handleChange} onBlur={onBlurField}/>
-              {errors.email.dirty && errors.email.error ? (
-          <p className={styles.formFieldErrorMessage}>{errors.email.message}</p>) : null}
+                    <p className={styles.forgotPassword}>forgot password?</p>
+                    <button type="submit" className={styles.formSubmitBtn}>
+                        Sign in
+                    </button>
+                </form>
+            </div>
         </div>
-
-        <div className={styles.formGroup}>
-          <label className={styles.formLabel}>Password</label>
-          <input className={clsx(styles.formField,
-            errors.password.dirty && errors.password.error && styles.formFieldError)} type='text' name='password' value={user.password } onChange={handleChange} onBlur={onBlurField}/>
-              {errors.password.dirty && errors.password.error ? (
-          <p className={styles.formFieldErrorMessage}>{errors.password.message}</p>) : null}
-        </div>
-        
-        <p className={styles.forgotPassword}>forgot password?</p>
-        <button type='submit'  className={styles.formSubmitBtn} >Sign in</button>
-      </form>
-      </div>
-    </div>
-  )
+    );
 }
-export default SignIn
+export default SignIn;

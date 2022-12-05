@@ -1,98 +1,125 @@
-import {  useState } from 'react'
-import Link from 'next/link'
-import styles from './signUp.module.scss'
-import clsx from 'clsx';
-import { useLoginFormValidator } from '../components/useLoginFormValidator';
+import { useState } from "react";
+import Link from "next/link";
+import styles from "./signUp.module.scss";
+import clsx from "clsx";
+import { useForm } from "react-hook-form";
 
-const  SignUp=()=>{
-  const [user, setUser] = useState({
-    email: "",
-    name: "",
-    password: "",
-    confirmPassword: ""
-  });
+const SignUp = () => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        getValues,
+        watch,
+    } = useForm();
 
-  const { errors, signUpValidateForm, onBlurField } = useLoginFormValidator(user);
-
-  const handleChange = e => {
-    const formName = e.target.name;
-    const nextFormState = {
-      ...user,
-      [formName]: e.target.value,
+    const handleSignUp = (data) => {
+        console.log("data", data);
+        alert(`account created successfully-${JSON.stringify(data)}`);
+        localStorage.setItem(
+            "user",
+            JSON.stringify({ email: data.email, name: data.name, password: data.password })
+        );
     };
-    setUser(nextFormState);
-    if (errors[formName].dirty)
-      signUpValidateForm({
-        user: nextFormState,
-        errors,
-        formName,
-      });
-  };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const {isValid}=signUpValidateForm({user,errors, forceTouchErrors: true})
-    console.log("1",isValid)
-    if (!isValid) return;
-    console.log("2",isValid)
-    alert(`account created successfully-${JSON.stringify(user)}`)
-    localStorage.setItem('user',JSON.stringify(user))
-    setUser({name:"",email:"",password:"",confirmPassword:""})
-  };
+    return (
+        <div className={styles.container}>
+            <div className={styles.containerlist}>
+                <h2 className={styles.title}>Sign Up</h2>
+                <form className={styles.form} onSubmit={handleSubmit(handleSignUp)}>
+                    <div className={styles.formGroup}>
+                        <label className={styles.formLabel}>Email</label>
+                        <input
+                            className={clsx(
+                                styles.formField,
+                                errors.email && styles.formFieldError
+                            )}
+                            type="email"
+                            {...register("email", {
+                                required: true,
+                                pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            })}
+                        />
+                        {errors?.email?.type === "required" ? (
+                            <p className={styles.formFieldErrorMessage}>Email is required</p>
+                        ) : null}
+                        {errors?.email?.type === "pattern" ? (
+                            <p className={styles.formFieldErrorMessage}>Email is not valid</p>
+                        ) : null}
+                    </div>
 
-  return(
-    <div className={styles.container}>
-      <div className={styles.containerlist}>
-      <h2 className={styles.title}>Sign Up</h2>
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <div className={styles.formGroup}>
-          <label className={styles.formLabel}>Email</label>
-          <input className={clsx(styles.formField,
-            errors.email.dirty && errors.email.error && styles.formFieldError)}
-            type='text'   name='email' value={user.email} onChange={handleChange} onBlur={onBlurField}/>  
-            {errors.email.dirty && errors.email.error ? (
-          <p className={styles.formFieldErrorMessage}>{errors.email.message}</p>) : null}
+                    <div className={styles.formGroup}>
+                        <label className={styles.formLabel}>User Name</label>
+                        <input
+                            className={clsx(styles.formField, errors.name && styles.formFieldError)}
+                            type="text"
+                            {...register("name", { required: true })}
+                        />
+                        {errors?.name?.type === "required" && (
+                            <p className={styles.formFieldErrorMessage}>Field is required</p>
+                        )}
+                    </div>
+
+                    <div className={styles.formGroup}>
+                        <label className={styles.formLabel}>Password</label>
+                        <input
+                            className={clsx(
+                                styles.formField,
+                                errors.password && styles.formFieldError
+                            )}
+                            type="password"
+                            {...register("password", {
+                                required: true,
+                                minLength: 8,
+                                maxLength: 8,
+                            })}
+                            placeholder="********"
+                        />
+                        {errors?.password?.type === "required" && (
+                            <p className={styles.formFieldErrorMessage}>Field is required</p>
+                        )}
+                        {errors?.password?.type === "minLength" ||
+                        errors?.password?.type === "maxLength" ? (
+                            <p className={styles.formFieldErrorMessage}>
+                                password must contain 8 characters
+                            </p>
+                        ) : null}
+                    </div>
+
+                    <div className={styles.formGroup}>
+                        <label className={styles.formLabel}>confirm Password</label>
+                        <input
+                            className={clsx(
+                                styles.formField,
+                                errors.confirmPassword && styles.formFieldError
+                            )}
+                            type="password"
+                            {...register("confirmPassword", { required: true })}
+                            placeholder="********"
+                        />
+                        {errors?.confirmPassword?.type === "required" && (
+                            <p className={styles.formFieldErrorMessage}>Field is required</p>
+                        )}
+                        {watch("confirmPassword") !== watch("password") &&
+                        getValues("confirmPassword") ? (
+                            <p className={styles.formFieldErrorMessage}>password not matching</p>
+                        ) : null}
+                    </div>
+
+                    <div className={styles.formActions}>
+                        <button type="submit" className={styles.formSubmitBtn}>
+                            Create Account
+                        </button>
+                        <p className={styles.account}>
+                            Already have an account?{" "}
+                            <Link href={"/signIn"} className={styles.signin}>
+                                Signin
+                            </Link>
+                        </p>
+                    </div>
+                </form>
+            </div>
         </div>
-
-        <div className={styles.formGroup}>
-          <label className={styles.formLabel}>User Name</label>
-          <input className={clsx(styles.formField,
-            errors.email.dirty && errors.email.error && styles.formFieldError
-          )} type='text'   name='name' value={user.name} onChange={handleChange} onBlur={onBlurField} /> 
-          {errors.name.dirty && errors.name.error ? (
-          <p className={styles.formFieldErrorMessage}>{errors.name.message}</p>) : null}
-        </div>
-
-        <div className={styles.formGroup}>
-          <label className={styles.formLabel}>Password</label>
-          <input className={clsx(styles.formField,
-            errors.email.dirty && errors.email.error && styles.formFieldError
-          )}  type='password' name='password' value={user.password } onChange={handleChange}  onBlur={onBlurField}/>
-          {errors.password.dirty && errors.password.error ? (
-          <p className={styles.formFieldErrorMessage}>
-            {errors.password.message}
-          </p>
-          ) : null}
-          </div>
-
-            <div className={styles.formGroup}>
-            <label className={styles.formLabel}>confirm Password</label>
-            <input className={clsx(styles.formField,
-            errors.email.dirty && errors.email.error && styles.formFieldError
-            )}  type='password' name='confirmPassword' value={user.confirmPassword } onChange={handleChange}  onBlur={onBlurField}/>
-            {errors.confirmPassword.dirty && errors.confirmPassword.error ? (
-            <p className={styles.formFieldErrorMessage}>
-            {errors.confirmPassword.message}
-            </p>) : null}
-          </div>  
-          
-          <div  className={styles.formActions}>
-            <button type='submit' className={styles.formSubmitBtn}>Create Account</button>
-            <p className={styles.account}>Already have an account? <Link href={'/signIn'} className={styles.signin}>Signin</Link></p>
-          </div>
-      </form>
-      </div>
-    </div>
-  )
-}
-export default SignUp
+    );
+};
+export default SignUp;
