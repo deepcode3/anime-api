@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { User } from "../User";
 import { useContext } from "react";
 import AppContext from "../AppContext";
+import Link from "next/link";
 
 function SignIn() {
     const value = useContext(AppContext);
@@ -84,11 +85,12 @@ function SignIn() {
                         ) : null}
                     </div>
 
-                    <p className={styles.forgotPassword}>forgot password?</p>
+                    <p className={styles.forgotPassword}>
+                        <Link href={"/changePassword"}>forgot password?</Link>
+                    </p>
                     <button type="submit" className={styles.formSubmitBtn}>
                         Sign in
                     </button>
-                    {handleSignIn()}
                 </form>
             </div>
         </div>

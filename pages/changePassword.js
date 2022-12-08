@@ -1,9 +1,16 @@
-import Link from "next/link";
-import styles from "./signUp.module.scss";
+import styles from "./changePassword.module.scss";
 import clsx from "clsx";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
+import { User } from "../User";
+import { useContext } from "react";
+import AppContext from "../AppContext";
 
-const SignUp = () => {
+function ChangePassword() {
+    const value = useContext(AppContext);
+    const router = useRouter();
+    const userData = User;
+
     const {
         register,
         handleSubmit,
@@ -12,53 +19,17 @@ const SignUp = () => {
         watch,
     } = useForm();
 
-    const handleSignUp = (data) => {
-        console.log("data", data);
+    const handleChangePassword = (data) => {
         alert(`account created successfully-${JSON.stringify(data)}`);
-        localStorage.setItem(
-            "user",
-            JSON.stringify({ email: data.email, name: data.name, password: data.password })
-        );
+        // const userData = JSON.parse(localStorage.getItem("signinUser"));
+        router.push("/signIn");
     };
 
     return (
         <div className={styles.container}>
             <div className={styles.containerlist}>
-                <h2 className={styles.title}>Sign Up</h2>
-                <form className={styles.form} onSubmit={handleSubmit(handleSignUp)}>
-                    <div className={styles.formGroup}>
-                        <label className={styles.formLabel}>Email</label>
-                        <input
-                            className={clsx(
-                                styles.formField,
-                                errors.email && styles.formFieldError
-                            )}
-                            type="email"
-                            {...register("email", {
-                                required: true,
-                                pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            })}
-                        />
-                        {errors?.email?.type === "required" ? (
-                            <p className={styles.formFieldErrorMessage}>Email is required</p>
-                        ) : null}
-                        {errors?.email?.type === "pattern" ? (
-                            <p className={styles.formFieldErrorMessage}>Email is not valid</p>
-                        ) : null}
-                    </div>
-
-                    <div className={styles.formGroup}>
-                        <label className={styles.formLabel}>User Name</label>
-                        <input
-                            className={clsx(styles.formField, errors.name && styles.formFieldError)}
-                            type="text"
-                            {...register("name", { required: true })}
-                        />
-                        {errors?.name?.type === "required" && (
-                            <p className={styles.formFieldErrorMessage}>Field is required</p>
-                        )}
-                    </div>
-
+                <h2 className={styles.title}>Change Password</h2>
+                <form className={styles.form} onSubmit={handleSubmit(handleChangePassword)}>
                     <div className={styles.formGroup}>
                         <label className={styles.formLabel}>Password</label>
                         <input
@@ -105,20 +76,12 @@ const SignUp = () => {
                         ) : null}
                     </div>
 
-                    <div className={styles.formActions}>
-                        <button type="submit" className={styles.formSubmitBtn}>
-                            Create Account
-                        </button>
-                        <p className={styles.account}>
-                            Already have an account?{" "}
-                            <Link href={"/signIn"} className={styles.signin}>
-                                Signin
-                            </Link>
-                        </p>
-                    </div>
+                    <button type="submit" className={styles.formSubmitBtn}>
+                        Change Password
+                    </button>
                 </form>
             </div>
         </div>
     );
-};
-export default SignUp;
+}
+export default ChangePassword;

@@ -4,14 +4,8 @@
     width: 100%;
     height: 100px;
     background-color: rgb(221, 236, 249);
-    .textBox{
-        height: 30px;
-        width: 70%;
-        display: flex;
-      justify-content: space-around;
-        span{
-            font-size: 20px;
-            color: rgb(87, 7, 87);
-        }
+    .myAccount_link{
+        color: rgb(75, 5, 75);
+        padding: 0 10px;
     }
 }
