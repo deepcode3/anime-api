@@ -14,15 +14,17 @@ const Profile = () => {
         register,
         handleSubmit,
         formState: { errors },
+        reset,
     } = useForm();
 
-    const handleNameChange = (data) => {
+    const handleNameChange = (data, e) => {
         console.log(data);
         value.setUserSelected({
             name: data.name,
             email: userSelected.email,
             age: userSelected.age,
         });
+        e.target.reset();
     };
 
     return (
@@ -30,6 +32,7 @@ const Profile = () => {
             {userSelected.name ? (
                 <>
                     <div className={styles.textBox}>
+                        <h3>My Account</h3>
                         <span>Name:{userSelected.name}</span>
                         <span>Email:{userSelected.email}</span>
                         <span>Age:{userSelected.age}</span>

@@ -10,15 +10,17 @@ const SignUp = () => {
         formState: { errors },
         getValues,
         watch,
+        reset,
     } = useForm();
 
-    const handleSignUp = (data) => {
+    const handleSignUp = (data, e) => {
         console.log("data", data);
         alert(`account created successfully-${JSON.stringify(data)}`);
         localStorage.setItem(
             "user",
             JSON.stringify({ email: data.email, name: data.name, password: data.password })
         );
+        e.target.reset();
     };
 
     return (

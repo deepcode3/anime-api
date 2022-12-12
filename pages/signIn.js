@@ -16,9 +16,10 @@ function SignIn() {
         register,
         handleSubmit,
         formState: { errors },
+        reset,
     } = useForm();
 
-    const handleSignIn = (data) => {
+    const handleSignIn = (data, e) => {
         if (userData) {
             userData.map((user) => {
                 if (user?.password !== data?.password) {
@@ -32,6 +33,7 @@ function SignIn() {
                 }
             });
         }
+        e.target.reset();
     };
 
     return (
