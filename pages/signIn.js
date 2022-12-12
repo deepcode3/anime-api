@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { User } from "../User";
 import { useContext } from "react";
 import AppContext from "../AppContext";
+import Link from "next/link";
 
 function SignIn() {
     const value = useContext(AppContext);
@@ -15,9 +16,10 @@ function SignIn() {
         register,
         handleSubmit,
         formState: { errors },
+        reset,
     } = useForm();
 
-    const handleSignIn = (data) => {
+    const handleSignIn = (data, e) => {
         if (userData) {
             userData.map((user) => {
                 if (user?.password !== data?.password) {
@@ -31,6 +33,7 @@ function SignIn() {
                 }
             });
         }
+        e.target.reset();
     };
 
     return (
@@ -84,11 +87,12 @@ function SignIn() {
                         ) : null}
                     </div>
 
-                    <p className={styles.forgotPassword}>forgot password?</p>
+                    <p className={styles.forgotPassword}>
+                        <Link>forgot password?</Link>
+                    </p>
                     <button type="submit" className={styles.formSubmitBtn}>
                         Sign in
                     </button>
-                    {handleSignIn()}
                 </form>
             </div>
         </div>
